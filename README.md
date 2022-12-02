@@ -11,7 +11,7 @@
 
 ## Documentation
 
-You can find the React documentation [here](link).
+You can find the React documentation [here](https://helloinnovation.github.io/styled/).
 
 ## License
 
