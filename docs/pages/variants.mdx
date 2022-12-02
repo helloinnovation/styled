@@ -1,0 +1,219 @@
+# Variants
+
+## Basic Usage
+
+All you need is to pass an object to the `.variants` method.
+
+This method accepts an object. First level key is the prop name and the object inside is a key value pair with key being the react prop value and it's value being the class which is going to be added to DOM node.
+
+```css
+.btn {
+  /* */
+}
+.small {
+  /* */
+}
+.big {
+  /* */
+}
+```
+
+```tsx
+import styled from '@helloinnovation/styled'
+import styles from './styles.module.css'
+
+const Button = styled.button.variants({
+  size: {
+    small: styles.small,
+    big: styles.big,
+  },
+})<{ size?: 'small' | 'big' }>(styles.btn)
+
+const MyComponent = () => {
+  return (
+    <>
+      {/* className will be: `btn big` */}
+      <Button size="big">I'm the big button</Button>
+      {/* className will be: `btn small` */}
+      <Button size="small">And I'm the small one</Button>
+    </>
+  )
+}
+```
+
+## Variant Defaults
+
+Given the previous example, to set a default value for a variant, all you need is to put it on `defaultProps`.
+
+```tsx
+Button.defaultProps = {
+  size: 'big',
+}
+
+const MyComponent = () => {
+  return (
+    <>
+      {/* className will be: `btn big` */}
+      <Button>I'm the big button</Button>
+      {/* className will be: `btn small` */}
+      <Button size="small">And I'm the small one</Button>
+    </>
+  )
+}
+```
+
+## Boolean Attributes
+
+Boolean variants are a bit different to declare, you can only have a single key inside your variants definition.
+
+```tsx
+import styled from '@helloinnovation/styled'
+import styles from './styles.module.css'
+
+const Button = styled.button.variants({
+  outlined: {
+    true: styles.outlined,
+  },
+})<{ outlined?: boolean }>(styles.btn)
+
+const MyComponent = () => {
+  return (
+    <>
+      {/* className will be: `btn` */}
+      <Button>I'm the big button</Button>
+      {/* className will be: `btn outlined` */}
+      <Button outlined>And I'm the small one</Button>
+    </>
+  )
+}
+```
+
+## Number Attributes
+
+It's pretty much like strings, see the example below.
+
+```tsx
+import styled from '@helloinnovation/styled'
+import styles from './styles.module.css'
+
+const Grid = styled.div.variants({
+  itemsPerRow: {
+    3: styles.grid3,
+    4: styles.grid4,
+  },
+})<{ itemsPerRow?: 3 | 4 }>(styles.btn)
+
+interface Props {
+  children: React.ReactNode
+}
+const MyComponent: React.FC<Props> = ({ children }) => {
+  return (
+    <>
+      {/* className will be: `btn grid3` */}
+      <Grid itemsPerRow={3}>{children}</Grid>
+      {/* className will be: `btn grid4` */}
+      <Grid itemsPerRow={4}>{children}</Grid>
+    </>
+  )
+}
+```
+
+## Extending Styles
+
+### Adding another type of variant
+
+When extending a style from another component, you can add additional variants.
+
+```tsx
+import styled from '@helloinnovation/styled'
+import styles from './styles.module.css'
+
+const Button = styled.button.variants({
+  size: {
+    small: styles.small,
+    big: styles.big,
+  },
+})<{ size: 'small' | 'big' }>(styles.btn)
+
+const OutlinedButton = styled(Button).variants({
+  outlined: {
+    true: styles.outlined,
+  },
+})<{ outlined?: boolean }>() // you don't need to pass anything here
+
+OutlinedButton.defaultProps = {
+  outlined: true,
+}
+
+const MyComponent = () => {
+  return (
+    <OutlinedButton size="small">I'm outlined with a small size</OutlinedButton>
+  )
+}
+```
+
+### Adding another value to an already defined variant
+
+Sometimes the component you want to use does not have the variant value you need, in this case you can extend it and add another possible value.
+
+```tsx
+import styled from '@helloinnovation/styled'
+import styles from './styles.module.css'
+
+const BaseButton = styled.button.variants({
+  size: {
+    small: styles.small,
+    big: styles.big,
+  },
+})<{ size: 'small' | 'big' }>(styles.btn)
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  size?: 'small' | 'medium' | 'big'
+}
+
+const Button = styled(
+  BaseButton as IStyledComponent<'button', ButtonProps>
+).variants({
+  size: {
+    medium: 'medium',
+  },
+})<ButtonProps>() // you don't need to pass anything here!
+
+const MyComponent = () => {
+  return (
+    <>
+      <Button size="small">I'm the small button</Button>
+      <Button size="medium">I'm the medium button</Button>
+      <Button size="big">I'm the big button</Button>
+    </>
+  )
+}
+```
+
+## Using `.attrs` to set a variant value
+
+```tsx
+import styled from '@helloinnovation/styled'
+import styles from './styles.module.css'
+
+const Button = styled.button.variants({
+  size: {
+    small: styles.small,
+    big: styles.big,
+  },
+})<{ size?: 'small' | 'big' }>(styles.btn)
+
+const BigButton = styled(Button).attrs({
+  size: 'big', // from now on it'll be always big!
+})()
+
+const MyComponent = () => {
+  return (
+    <>
+      <Button size="big">I'm the big button</Button>
+      {/* Even passing small, it will keep using the big variant */}
+      <BigButton size="small">I am still big!</BigButton>
+    </>
+  )
+}
+```

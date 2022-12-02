@@ -1,0 +1,24 @@
+# Refs
+
+Passing a ref prop to a styled component will give you one of two things depending on the styled target:
+
+- the underlying DOM node (if targeting a basic element, e.g. styled.div)
+- a React component instance (if targeting a custom component e.g. extended from React.Component)
+
+```tsx
+const Input = styled.input(/* */)
+
+const Form = () => {
+  const inputRef = useRef<HTMLInputElement>()
+
+  return (
+    <Input
+      ref={inputRef}
+      placeholder="Hover to focus!"
+      onMouseEnter={() => {
+        inputRef.current.focus()
+      }}
+    />
+  )
+}
+```

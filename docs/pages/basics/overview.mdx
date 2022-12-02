@@ -1,0 +1,136 @@
+# Overview
+
+## Basic Component
+
+Firstly here you'll see the CSS wrote which will be attached in our component by CSS Modules.
+
+```css
+.link {
+  color: palevioletred;
+}
+```
+
+After having the CSS ready we should import it and attach to any component such as the Link component below:
+
+```tsx
+import styled from '@helloinnovation/styled'
+import styles from './styles.module.css'
+
+const Link = styled.a(styles.link)
+
+const MyComponent = () => <Link>I'm a boring link</Link>
+```
+
+## Composition
+
+Now let's see how it would work with composition. <br />
+We're going to compose a LinkButton component with the previous Link component created in the last code section. <br />
+The code should be like `styled(ComponentThatShouldBeComposed)(newCSSClass)` as the example below.
+
+```css
+.btn {
+  border: 1px solid palevioletred;
+  display: inline-flex;
+  padding: 0.8rem 1.2rem;
+}
+```
+
+```tsx
+import styled from '@helloinnovation/styled'
+import styles from './styles.module.css'
+
+const LinkButton = styled(Link)(styles.btn)
+
+const MyComponent = () => (
+  <LinkButton>I'm a link that looks like a button</LinkButton>
+)
+```
+
+## Variants
+
+Variants are style rules which may change accordingly to it's values.
+Here we have a boolean variant called `button` and if it's true, the class `styles.btn` will be attached to the DOM node.
+
+```tsx
+import styled from '@helloinnovation/styled'
+import styles from './styles.module.css'
+
+const Link = styled.a.variants({
+  button: {
+    true: styles.btn,
+  },
+})(styles.link)
+
+const MyComponent = () => (
+  <>
+    <Link>I'm a boring link</Link>
+    <Link button>I'm a link that looks like a button</Link>
+  </>
+)
+```
+
+So if you need a variant with severals values, here goes a code snippet:
+
+```css
+.red {
+  color: red;
+}
+
+.blue {
+  color: blue;
+}
+
+.orange {
+  color: orange;
+}
+```
+
+Now we'll apply this css as a variant.
+
+```tsx
+import styled from '@helloinnovation/styled'
+import styles from './styles.module.css'
+
+const Paragraph = styled.p.variants({
+  color: {
+    red: styles.red,
+    blue: styles.blue,
+    orange: styles.orange,
+  },
+})(styles.link)
+
+Paragraph.defaultProps = {
+  color: 'red',
+}
+
+const MyComponent = () => (
+  <>
+    <Paragraph>Red Paragraph</Paragraph>
+    <Paragraph color="blue">Blue Paragraph</Paragraph>
+    <Paragraph color="orange">Orange Paragraph</Paragraph>
+  </>
+)
+```
+
+In the example above, we also can check the use of `defaultProps`. Please, note that the default prop is the name of the className _`red`_, **never will be** `styles.red`.
+
+## `as` property
+
+It has the same behavior styled-component library also has. <br />
+In some cases you might want to change which tag or component a component renders. This is common when building a navigation bar for example, where there are a mix of anchor links and buttons but they should be styled identically.
+For this situation, we have an escape hatch. You can use the "as" polymorphic prop to dynamically swap out the element that receives the styles you wrote:
+
+```tsx
+import styles from './Button.module.css'
+
+const Button = styled.button(/* */)
+
+render(
+  <div>
+    <Button>Normal Button</Button>
+    <Button as="a" href="#">
+      Link with Button styles
+    </Button>
+  </div>
+)
+```

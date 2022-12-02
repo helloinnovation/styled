@@ -1,0 +1,29 @@
+{
+  "name": "docs",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "start": "next start",
+    "build": "next build"
+  },
+  "author": "Shu Ding",
+  "license": "MIT",
+  "dependencies": {
+    "next": "12.3.4",
+    "nextra": "2.0.0-beta.42",
+    "nextra-theme-docs": "2.0.0-beta.42",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "bundlewatch": "^0.3.3",
+    "prettier": "^2.0.5"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  }
+}

@@ -1,0 +1,19 @@
+# Styled Components for CSS Modules
+
+A Styled Components API made for CSS Modules or vanilla CSS.
+
+## Motivation
+
+- **Painless maintenance:** you never have to hunt across different files to find the styling affecting your component, so maintenance is a piece of cake no matter how big your codebase is. CSS Modules makes the scope for you.
+- **React 18 SSR and Streaming support:** currently CSS-IN-JS does not work with SSR and streaming, while vanilla CSS does.
+- **Familiar API:** we like Styled Components and their API, it's simple and elegant.
+- **Variants:** using CSS Modules and coding variants for each component is boring and makes a mess on classNames.
+- **Zero runtime:** fast out of the box.
+
+## Caveats
+
+- **Extending:** please take care while extending the same element dozens of times, most likely it would end up with a bunch of classNames. In addition to that, the bundle will include all your used classes and it's rules, not just the final CSS like Styled Components. That's how CSS works.
+
+## Vanilla CSS
+
+Since this library only cares about receiving classes, you don't need to rely on CSS Modules. In this case, just pass in the classes you want and you will get the same output.
