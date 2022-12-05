@@ -1,6 +1,6 @@
 {
   "name": "@helloinnovation/styled",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Styled Components API for CSS Modules and vanilla CSS.",
   "type": "module",
   "main": "./dist/index.cjs",

@@ -80,10 +80,20 @@ describe('variants', () => {
       }
     })<{ outlined?: boolean }>();
 
-    const { container } = render(<Comp outlined />);
+    const { container: defaultcontainer } = render(<Comp />);
+    const { container: outlinedFalseContainer } = render(
+      <Comp outlined={false} />
+    );
+    const { container: outlinedContainer } = render(<Comp outlined />);
 
-    const button = container.querySelector('button');
-    expect(button).toHaveAttribute('class', 'outlined');
+    const defaultButton = defaultcontainer.querySelector('button');
+    expect(defaultButton).not.toHaveAttribute('class', 'outlined');
+
+    const outlinedFalseButton = outlinedFalseContainer.querySelector('button');
+    expect(outlinedFalseButton).not.toHaveAttribute('class', 'outlined');
+
+    const outlinedButton = outlinedContainer.querySelector('button');
+    expect(outlinedButton).toHaveAttribute('class', 'outlined');
   });
 
   it('works with number attributes', () => {

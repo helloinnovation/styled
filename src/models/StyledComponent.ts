@@ -53,7 +53,7 @@ function useVariants<T extends object, U extends object>(
     const typeOf = typeof propValue;
 
     if (propName in variants) {
-      if (typeOf === 'boolean' || typeOf === 'undefined') {
+      if ((typeOf === 'boolean' && propValue) || typeOf === 'undefined') {
         // @ts-ignore: too much trouble to get the index of this thing properly
         classnames.push(variants[propName].true);
       } else if (typeOf === 'string' || typeOf === 'number') {
