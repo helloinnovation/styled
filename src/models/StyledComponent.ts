@@ -56,6 +56,9 @@ function useVariants<T extends object, U extends object>(
       if ((typeOf === 'boolean' && propValue) || typeOf === 'undefined') {
         // @ts-ignore: too much trouble to get the index of this thing properly
         classnames.push(variants[propName].true);
+      } else if (typeOf === 'boolean' && !propValue) {
+        // @ts-ignore: too much trouble to get the index of this thing properly
+        classnames.push(variants[propName].false);
       } else if (typeOf === 'string' || typeOf === 'number') {
         // @ts-ignore: too much trouble to get the index of this thing properly
         classnames.push(variants[propName][propValue]);
@@ -305,6 +308,7 @@ function createStyledComponent<
         shouldForwardProp: true,
         styledComponentId: true,
         target: true
+        // eslint-disable-next-line no-unused-vars
       } as { [key in keyof OmitNever<IStyledStatics<OuterProps>>]: true }
     );
   }

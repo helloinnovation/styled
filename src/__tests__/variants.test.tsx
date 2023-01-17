@@ -1,4 +1,5 @@
 import { IStyledComponent } from '../types';
+import React from 'react';
 import { render } from '@testing-library/react';
 import styled from '..';
 
@@ -94,6 +95,20 @@ describe('variants', () => {
 
     const outlinedButton = outlinedContainer.querySelector('button');
     expect(outlinedButton).toHaveAttribute('class', 'outlined');
+  });
+
+  it('works with a boolean attribute set to false', () => {
+    const Comp = styled.button.variants({
+      outlined: {
+        true: 'outlined',
+        false: 'solid'
+      }
+    })<{ outlined?: boolean }>();
+
+    const { container } = render(<Comp outlined={false} />);
+
+    const button = container.querySelector('button');
+    expect(button).toHaveAttribute('class', 'solid');
   });
 
   it('works with number attributes', () => {
